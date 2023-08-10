@@ -26,6 +26,7 @@
 #define __OPTIONS__
 
 
+#include <stdio.h>
 #include <stdint.h>
 #include <mach/machine.h>
 #include <tapi/tapi.h>
@@ -144,7 +145,7 @@ public:
 
 		// These are used by the threaded input file parsing engine.
 		mutable int				inputFileSlot;	// The input file "slot" assigned to this particular file
-		bool					readyToParse;
+		bool					readyToParse = false;
 
         // The use pattern for FileInfo is to create one on the stack in a leaf function and return
         // it to the calling frame by copy. Therefore the copy constructor steals the path string from

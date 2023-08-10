@@ -90,6 +90,12 @@ template <typename A> bool File<A>::useSimulatorVariant() { return false; }
 
 static ld::VersionSet mapPlatform(tapi::Platform platform, bool useSimulatorVariant) {
 	ld::VersionSet platforms;
+	#if ((TAPI_API_VERSION_MAJOR == 1 &&  TAPI_API_VERSION_MINOR >= 4) || (TAPI_API_VERSION_MAJOR > 1))
+  if ((int)platform == ~0U) { // zippered which was removed from TAPI, LOL
+		platforms.insert(ld::Platform::macOS);
+		platforms.insert(ld::Platform::iOSMac);
+  }
+  #endif
 	switch (platform) {
 	case tapi::Platform::Unknown:
 		break;
@@ -123,10 +129,10 @@ static ld::VersionSet mapPlatform(tapi::Platform platform, bool useSimulatorVari
 	case tapi::Platform::iOSMac:
 		platforms.insert(ld::Platform::iOSMac);
 		break;
-	case tapi::Platform::zippered:
-		platforms.insert(ld::Platform::macOS);
-		platforms.insert(ld::Platform::iOSMac);
-		break;
+	/* case tapi::Platform::zippered: */
+	/* 	platforms.insert(ld::Platform::macOS); */
+	/* 	platforms.insert(ld::Platform::iOSMac); */
+	/* 	break; */
 	#endif
 	#if ((TAPI_API_VERSION_MAJOR == 1 &&  TAPI_API_VERSION_MINOR >= 5) || (TAPI_API_VERSION_MAJOR > 1))
 	case tapi::Platform::DriverKit:
